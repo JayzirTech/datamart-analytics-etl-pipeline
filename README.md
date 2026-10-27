@@ -44,6 +44,93 @@ Solución de ingeniería de datos integral, modular y 100% contenerizada para **
                   +-------------------------------------------+
 ```
 
+### 1.1 Diagrama Entidad-Relación del Data Warehouse (Modelo Dimensional en Estrella)
+
+```mermaid
+erDiagram
+    dim_products ||--o{ fact_sales : "1:N (product_key)"
+    dim_products ||--o{ fact_returns : "1:N (product_key)"
+    dim_products ||--o{ fact_daily_product_revenue : "1:N (product_key)"
+    dim_products ||--o{ audit_product_descriptions : "1:N (stock_code)"
+    dim_customers ||--o{ fact_sales : "1:N (customer_key)"
+    dim_customers ||--o{ fact_returns : "1:N (customer_key)"
+    dim_exchange_rates ||--o{ fact_sales : "1:N (currency_code)"
+
+    dim_products {
+        int product_key PK
+        varchar stock_code UK
+        varchar canonical_description
+        varchar category_name
+        varchar supplier_country
+        boolean is_active
+    }
+
+    dim_customers {
+        int customer_key PK
+        varchar customer_id UK
+        varchar customer_name
+        varchar customer_type
+        varchar country
+    }
+
+    dim_exchange_rates {
+        varchar currency_code PK
+        varchar currency_name
+        numeric rate_to_usd
+    }
+
+    fact_sales {
+        bigint sale_key PK
+        varchar invoice_no
+        date invoice_date
+        timestamptz invoice_timestamp_utc
+        int product_key FK
+        int customer_key FK
+        int quantity
+        numeric unit_price
+        numeric gross_revenue
+    }
+
+    fact_returns {
+        bigint return_key PK
+        varchar invoice_no
+        date invoice_date
+        timestamptz invoice_timestamp_utc
+        int product_key FK
+        int customer_key FK
+        int quantity_returned
+        numeric unit_price
+        numeric return_amount
+    }
+
+    fact_daily_product_revenue {
+        bigint daily_summary_key PK
+        date invoice_date
+        int product_key FK
+        numeric gross_revenue
+        numeric return_amount
+        numeric net_revenue
+        int total_sold_qty
+        int total_returned_qty
+    }
+
+    audit_product_descriptions {
+        varchar stock_code PK
+        varchar raw_description PK
+        int frequency
+    }
+
+    rejected_records {
+        bigserial record_id PK
+        varchar source_dataset
+        jsonb raw_record
+        varchar rejection_reason
+        timestamptz rejected_at_utc
+    }
+```
+
+> 📌 **Código dbdiagram.io:** Puedes visualizar este modelo directamente en [dbdiagram.io](https://dbdiagram.io) usando el archivo [`docs/diagrama_modelo_datos.dbml`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/diagrama_modelo_datos.dbml) o revisando la [Sección 5 de DECISIONES.md](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/DECISIONES.md#5-código-para-dbdiagramio-diagrama-de-datos).
+
 ---
 
 ## 2. Pila Tecnológica
