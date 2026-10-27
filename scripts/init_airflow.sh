@@ -15,15 +15,18 @@ echo "========================================================================"
 airflow db migrate
 
 echo "========================================================================"
-echo ">> [3/5] Creando usuario administrador de Airflow..."
+echo ">> [3/5] Configurando credenciales de usuario administrador de Airflow..."
 echo "========================================================================"
+python -c "import json; open('/opt/airflow/simple_auth_manager_passwords.json.generated', 'w').write(json.dumps({'${_AIRFLOW_WWW_USER_USERNAME:-admin}': '${_AIRFLOW_WWW_USER_PASSWORD:-admin}'}))"
 airflow users create \
     --username "${_AIRFLOW_WWW_USER_USERNAME:-admin}" \
     --password "${_AIRFLOW_WWW_USER_PASSWORD:-admin}" \
     --firstname "Admin" \
     --lastname "DataMart" \
     --role "${_AIRFLOW_WWW_USER_ROLE:-Admin}" \
-    --email "${_AIRFLOW_WWW_USER_EMAIL:-admin@datamart.com}" || echo "[INFO] El usuario admin ya existe."
+    --email "${_AIRFLOW_WWW_USER_EMAIL:-admin@datamart.com}" 2>/dev/null || true
+echo "[INFO] Credenciales de admin configuradas exitosamente."
+
 
 echo "========================================================================"
 echo ">> [4/5] Configurando Airflow Connection hacia el repositorio analítico..."
