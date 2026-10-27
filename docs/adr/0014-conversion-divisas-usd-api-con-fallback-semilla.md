@@ -12,8 +12,9 @@ Además, la Pregunta de Negocio #4 requiere analizar el ticket promedio entre pa
 ## Decisión
 1. **Moneda Base Corporativa:** Estandarizar todos los importes analíticos a **USD** (Dólar estadounidense).
 2. **Estrategia Resiliente de Obtención de Tasas de Cambio:**
-   - **Opción Primaria:** Consultar una API pública de tasas de cambio (`open.er-api.com` / `exchangerate-api`) para obtener las paridades de conversión hacia USD.
-   - **Mecanismo de Resiliencia:** Si tras 3 reintentos con timeout la API externa no responde o no hay acceso a internet, el pipeline utiliza automáticamente un catálogo semilla local respaldado (`exchange_rates_seed.json`).
+   - **Opción Primaria:** Consultar la API oficial de **Frankfurter API** (`https://api.frankfurter.dev/v1/latest?base=USD`) para obtener las paridades de divisas hacia USD.
+   - **Mecanismo de Resiliencia:** Si tras 3 reintentos con timeout la API externa no responde o no hay acceso a internet, o para monedas regionales no rastreadas por el BCE (ej. COP, PEN), el pipeline utiliza automáticamente el catálogo semilla local respaldado (`exchange_rates_seed.json`).
+
 3. **Persistencia Histórica:**
    - Las tasas obtenidas se persisten en la tabla `dim_exchange_rates` dentro del Data Warehouse PostgreSQL.
    - Dado que PostgreSQL utiliza un volumen administrado de Docker (`postgres_dwh_data`), los registros históricos permanecen guardados permanentemente, garantizando idempotencia en re-ejecuciones.
