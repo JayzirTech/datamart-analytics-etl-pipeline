@@ -32,3 +32,7 @@ Thumbs.db
 # IDEs
 .idea/
 .vscode/
+
+# Guiones y notas locales privadas
+GUION_VIDEO_DEMO.txt
+*.txt
