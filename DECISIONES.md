@@ -24,7 +24,14 @@ Para una trazabilidad granular, este documento consolida y sintetiza los **14 Re
   2. `postgres_dwh` (puerto host **`5433`** / interno 5432): Exclusivo para el repositorio analítico (*Data Warehouse*) de DataMart.
 * **Justificación:** Previene contención de conexiones (`max_connections`), aísla completamente los locks transaccionales de las cargas analíticas masivas y permite aplicar políticas de retención, backup y tuning de memoria (`shared_buffers`, `work_mem`) independientes para analítica.
 
-### 2.2 Modelo Dimensional Híbrido en Estrella (ADR-0007, ADR-0008)
+### 2.2 Estrategia de Refinamiento: Arquitectura Medallion (Bronce, Plata y Oro)
+* **Decisión:** El ciclo de vida y maduración del dato dentro del repositorio analítico adopta el patrón **Medallion Architecture**, integrándose armoniosamente con el modelado dimensional de Kimball:
+  1. **🥉 Capa Bronce (Bronze / Raw):** Ingesta inmutable de `data/raw/data.csv` y `data/raw/online_retail_II.csv`, junto con respuestas JSON originales de APIs externas e internas. Las transacciones anómalas o rechazadas se preservan en la tabla [`rejected_records`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql#L137) con su contenido original en `JSONB` para auditoría forense sin bloquear el flujo analítico.
+  2. **🥈 Capa Plata (Silver / Cleaned & Conformed):** Modelado a granularidad atómica con limpieza estricta, deduplicación por clave compuesta priorizando `data.csv`, resolución canónica de descripciones por moda, normalización de divisas a USD con Frankfurter API y hechos segregados en [`fact_sales`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql#L72) y [`fact_returns`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql#L92).
+  3. **🥇 Capa Oro (Gold / Business & Curated):** Almacenamiento analítico pre-agregado optimizado para consultas ejecutivas de negocio ([`fact_daily_product_revenue`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql#L112) con cálculo de Revenue Neto diario por SKU) y capa de consumo final ([`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql) y [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb)).
+* **Justificación:** Separa la responsabilidad de auditoría y almacenamiento crudo de la capa de servicio analítico, garantizando que los tableros y consultas operen con latencias sub-segundo sin riesgo de distorsión por anomalías de origen.
+
+### 2.3 Modelo Dimensional Híbrido en Estrella de Kimball (ADR-0007, ADR-0008)
 El modelo fue diseñado específicamente para responder a las preguntas de negocio de facturación neta, tasa de devoluciones y comportamiento de clientes con latencias de milisegundos:
 
 ```mermaid
@@ -111,7 +118,7 @@ erDiagram
     }
 ```
 
-### 2.3 Decisiones Clave en las Tablas de Hechos:
+### 2.4 Decisiones Clave en las Tablas de Hechos:
 1. **Segregación de Hechos: `fact_sales` y `fact_returns` (ADR-0008):**
    * *Problema:* Tratar devoluciones como ventas con cantidades negativas (`Quantity < 0`) contamina las agregaciones de volumen, provoca errores en métricas de ticket promedio y dificulta auditar devoluciones.
    * *Solución:* Separación física estricta. `fact_sales` contiene exclusivamente ventas válidas (`quantity > 0` y `gross_revenue > 0`). `fact_returns` almacena devoluciones/cancelaciones (`quantity_returned > 0` en positivo y `return_amount > 0`).

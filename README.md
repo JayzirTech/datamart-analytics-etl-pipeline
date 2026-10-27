@@ -54,7 +54,41 @@ graph TD
     DWH_DB --> DBDIAG
 ```
 
-### 1.1 Diagrama Entidad-Relación del Data Warehouse (Modelo Dimensional en Estrella)
+### 1.1 Arquitectura de Datos: Patrón Medallion (Bronce, Plata y Oro)
+
+El procesamiento y refinamiento de los datos implementa el patrón **Medallion Architecture**, garantizando que cada registro transaccional transite por etapas de ingesta inmutable, estandarización atómica conformada y curaduría de negocio analítica:
+
+```mermaid
+graph LR
+    subgraph BRONZE["🥉 CAPA BRONCE (Raw / Ingesta Inmutable)"]
+        B1["data.csv & online_retail_II.csv<br/><i>(Fuentes transaccionales crudas)</i>"]
+        B2["Frankfurter API & FastAPI<br/><i>(Respuestas JSON crudas de APIs)</i>"]
+        B3["rejected_records<br/><i>(Auditoría JSONB cruda de datos anómalos)</i>"]
+    end
+
+    subgraph SILVER["🥈 CAPA PLATA (Cleaned, Enriched & Conformed)"]
+        S1["dim_products<br/><i>(Moda canónica + Taxonomía FastAPI)</i>"]
+        S2["dim_customers<br/><i>(Clientes limpios + Imputación 'ANONYMOUS')</i>"]
+        S3["dim_exchange_rates<br/><i>(Tasas de paridad y normalización a USD)</i>"]
+        S4["fact_sales & fact_returns<br/><i>(Hechos atómicos segregados y deduplicados)</i>"]
+    end
+
+    subgraph GOLD["🥇 CAPA ORO (Aggregated, Curated & Business-Ready)"]
+        G1["fact_daily_product_revenue<br/><i>(Pre-agregación diaria: Net Revenue por SKU)</i>"]
+        G2["queries_negocio.sql<br/><i>(7 Consultas analíticas estratégicas)</i>"]
+        G3["consultas_negocio.ipynb<br/><i>(Cuaderno interactivo con KPIs ejecutivos)</i>"]
+    end
+
+    B1 & B2 -->|Validación, Limpieza y Deduplicación| SILVER
+    B1 -->|Violación de Calidad| B3
+    SILVER -->|Agregación y Métricas de Negocio| GOLD
+```
+
+* **🥉 Capa Bronce (Raw):** Preserva las fuentes en bruto tal como fueron recibidas (`data/raw/*.csv`, respuestas REST originales) y almacena registros anómalos en [`rejected_records`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql#L137) con formato `JSONB` original para auditoría forense sin pérdida de información.
+* **🥈 Capa Plata (Cleaned & Conformed):** Aplica validación estricta de calidad, deduplicación por clave natural compuesta priorizando `data.csv`, enriquecimiento con el catálogo FastAPI, estandarización de divisas a USD con Frankfurter API y estructuración en dimensiones conformadas y hechos atómicos segregados (`fact_sales` y `fact_returns`).
+* **🥇 Capa Oro (Business / Analytics-Ready):** Almacena las tablas agregadas de alto rendimiento como [`fact_daily_product_revenue`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql#L112) (revenue neto diario por SKU) y expone la capa de consumo analítico ([`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql) y [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb)) con respuestas sub-segundo para la gerencia.
+
+### 1.2 Diagrama Entidad-Relación del Data Warehouse (Modelo Dimensional en Estrella de Kimball)
 
 ```mermaid
 erDiagram
