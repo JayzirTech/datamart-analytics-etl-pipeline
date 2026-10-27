@@ -123,6 +123,14 @@ CREATE TABLE IF NOT EXISTS rejected_records (
     rejected_at_utc TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- 8. Tabla de Auditoría de Descripciones de Productos (ADR-003, Pregunta de Negocio #6)
+CREATE TABLE IF NOT EXISTS audit_product_descriptions (
+    stock_code VARCHAR(50) NOT NULL,
+    raw_description VARCHAR(255) NOT NULL,
+    frequency INT NOT NULL DEFAULT 1,
+    PRIMARY KEY (stock_code, raw_description)
+);
+
 -- ==============================================================================
 -- ÍNDICES DE RENDIMIENTO ANALÍTICO
 -- ==============================================================================
@@ -144,3 +152,4 @@ CREATE INDEX IF NOT EXISTS idx_dim_customers_id ON dim_customers(customer_id);
 CREATE INDEX IF NOT EXISTS idx_dim_customers_type ON dim_customers(customer_type);
 
 CREATE INDEX IF NOT EXISTS idx_rejected_reason ON rejected_records(rejection_reason);
+CREATE INDEX IF NOT EXISTS idx_audit_desc_stock ON audit_product_descriptions(stock_code);
