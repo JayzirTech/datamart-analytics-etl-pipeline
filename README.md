@@ -1,94 +1,96 @@
-# DataMart S.A.S. — Pipeline ETL Analítico y Data Warehouse
-**Prueba de Desempeño:** Pipeline ETL con Apache Airflow, FastAPI y Data Warehouse en PostgreSQL  
-**Autor:** Jayzir Martínez | DataMart Analytics Team  
-**Cohorte:** Riwi Cohorte 7 | Octubre 2026  
-**Repositorio Oficial:** [`https://github.com/JayzirTech/datamart-analytics-etl-pipeline.git`](https://github.com/JayzirTech/datamart-analytics-etl-pipeline.git)
+# DataMart S.A.S. — Analytical ETL Pipeline & Data Warehouse
+**Performance Test:** End-to-End ETL Pipeline with Apache Airflow, FastAPI & PostgreSQL Data Warehouse  
+**Author:** Jayzir Martínez | DataMart Analytics Team  
+**Cohort:** Riwi Cohort 5 | October 2026  
+**Official Repository:** [`https://github.com/JayzirTech/datamart-analytics-etl-pipeline.git`](https://github.com/JayzirTech/datamart-analytics-etl-pipeline.git)
+
+> 🌐 **Language / Idioma:** **English** | [Español](README.es.md)
 
 ---
 
-## 1. Visión General de la Solución
+## 1. Solution Overview
 
-Solución de ingeniería de datos integral, modular y 100% contenerizada para **DataMart S.A.S.** que automatiza la ingesta masiva de transacciones de retail e-commerce (+1,000,000 de registros), enriquece los productos en tiempo real mediante un microservicio REST en **FastAPI**, estandariza las divisas a USD consumiendo **Frankfurter API**, valida la calidad de datos con políticas de rechazo estrictas y puebla un **Data Warehouse en PostgreSQL** mediante un modelo dimensional en estrella optimizado para consultas analíticas sub-segundo.
+An end-to-end, modular, and 100% containerized data engineering solution built for **DataMart S.A.S.** It automates the mass ingestion of retail e-commerce transactions (+1,000,000 records), enriches products in real time via a **FastAPI** REST microservice, standardizes currencies to USD by consuming the **Frankfurter API**, enforces data quality with strict rejection policies, and populates an analytical **PostgreSQL Data Warehouse** modeled with a Kimball Star Schema optimized for sub-second analytical reporting.
 
 ```mermaid
 graph TD
-    subgraph FUENTES["1. Fuentes de Datos Crudos"]
+    subgraph SOURCES["1. Raw Data Sources"]
         D1["data.csv (Kaggle)"]
         D2["online_retail_II.csv (Kaggle)"]
     end
 
-    subgraph SERVICIOS["2. Servicios Externos & Microservicios"]
-        API_CURR["Frankfurter API<br/><i>(Tasas de cambio a USD en vivo)</i>"]
-        FASTAPI["FastAPI Microservicio :8000<br/><i>(Catálogo taxonomía y proveedores)</i>"]
+    subgraph SERVICES["2. External Services & Microservices"]
+        API_CURR["Frankfurter API<br/><i>(Live currency exchange rates to USD)</i>"]
+        FASTAPI["FastAPI Microservice :8000<br/><i>(Catalog taxonomy & suppliers)</i>"]
     end
 
-    subgraph AIRFLOW["3. Orquestación Distribuida (Apache Airflow 3.3.2 en Docker)"]
+    subgraph AIRFLOW["3. Distributed Orchestration (Apache Airflow 3.3.2 on Docker)"]
         SCHED["airflow-scheduler"]
         WORKER["airflow-worker (Celery)"]
         RABBIT["RabbitMQ Broker :5672 / :15672"]
         WEB["airflow-api-server :8080 (UI)"]
         PG_META[("PostgreSQL Metadata")]
         
-        SCHED -->|Encola tareas| RABBIT
-        RABBIT -->|Ejecuta tareas| WORKER
+        SCHED -->|Queues tasks| RABBIT
+        RABBIT -->|Executes tasks| WORKER
         SCHED --- PG_META
         WEB --- PG_META
     end
 
-    subgraph DWH["4. Almacenamiento Analítico (PostgreSQL DWH Puerto :5433)"]
+    subgraph DWH["4. Analytical Storage (PostgreSQL DWH Port :5433)"]
         DWH_DB[("datamart_dwh<br/>- dim_products<br/>- dim_customers<br/>- dim_exchange_rates<br/>- fact_sales (USD)<br/>- fact_returns (USD)<br/>- fact_daily_product_revenue<br/>- audit_product_descriptions<br/>- rejected_records")]
     end
 
-    subgraph CONSUMO["5. Capa de Consumo & Auditoría Analítica"]
-        SQL["sql/queries_negocio.sql<br/>(7 Consultas de Negocio)"]
-        NOTEBOOK["notebooks/consultas_negocio.ipynb<br/>(Cuaderno Interactivo Dinámico)"]
-        DBDIAG["dbdiagram.io<br/>(Modelo Dimensional en la Nube)"]
+    subgraph CONSUMPTION["5. Consumption & Analytical Audit Layer"]
+        SQL["sql/queries_negocio.sql<br/>(7 Business Questions)"]
+        NOTEBOOK["notebooks/consultas_negocio.ipynb<br/>(Dynamic Interactive Notebook)"]
+        DBDIAG["dbdiagram.io<br/>(Cloud Dimensional Model)"]
     end
 
-    D1 & D2 -->|Lectura idempotente| WORKER
-    API_CURR -->|Paridades vigentes| WORKER
-    FASTAPI -->|Enriquecimiento REST| WORKER
-    WORKER -->|Carga ACID con ON CONFLICT| DWH_DB
+    D1 & D2 -->|Idempotent Ingestion| WORKER
+    API_CURR -->|Live Rates| WORKER
+    FASTAPI -->|REST Enrichment| WORKER
+    WORKER -->|ACID Load with ON CONFLICT| DWH_DB
     DWH_DB --> SQL
     DWH_DB --> NOTEBOOK
     DWH_DB --> DBDIAG
 ```
 
-### 1.1 Arquitectura de Datos: Patrón Medallion (Bronce, Plata y Oro)
+### 1.1 Data Architecture: Medallion Pattern (Bronze, Silver & Gold)
 
-El procesamiento y refinamiento de los datos implementa el patrón **Medallion Architecture**, garantizando que cada registro transaccional transite por etapas de ingesta inmutable, estandarización atómica conformada y curaduría de negocio analítica:
+Data processing and refinement strictly implements the **Medallion Architecture**, ensuring every transaction transitions through stages of immutable ingestion, conformed atomic standardization, and business analytical curation:
 
 ```mermaid
 graph LR
-    subgraph BRONZE["🥉 CAPA BRONCE (Raw / Ingesta Inmutable)"]
-        B1["data.csv & online_retail_II.csv<br/><i>(Fuentes transaccionales crudas)</i>"]
-        B2["Frankfurter API & FastAPI<br/><i>(Respuestas JSON crudas de APIs)</i>"]
-        B3["rejected_records<br/><i>(Auditoría JSONB cruda de datos anómalos)</i>"]
+    subgraph BRONZE["🥉 BRONZE LAYER (Raw / Immutable Ingestion)"]
+        B1["data.csv & online_retail_II.csv<br/><i>(Raw transactional sources)</i>"]
+        B2["Frankfurter API & FastAPI<br/><i>(Raw JSON API responses)</i>"]
+        B3["rejected_records<br/><i>(Raw JSONB audit of anomalous data)</i>"]
     end
 
-    subgraph SILVER["🥈 CAPA PLATA (Cleaned, Enriched & Conformed)"]
-        S1["dim_products<br/><i>(Moda canónica + Taxonomía FastAPI)</i>"]
-        S2["dim_customers<br/><i>(Clientes limpios + Imputación 'ANONYMOUS')</i>"]
-        S3["dim_exchange_rates<br/><i>(Tasas de paridad y normalización a USD)</i>"]
-        S4["fact_sales & fact_returns<br/><i>(Hechos atómicos segregados y deduplicados)</i>"]
+    subgraph SILVER["🥈 SILVER LAYER (Cleaned, Enriched & Conformed)"]
+        S1["dim_products<br/><i>(Canonical mode + FastAPI taxonomy)</i>"]
+        S2["dim_customers<br/><i>(Cleaned customers + 'ANONYMOUS' imputation)</i>"]
+        S3["dim_exchange_rates<br/><i>(Exchange rates & USD normalization)</i>"]
+        S4["fact_sales & fact_returns<br/><i>(Segregated & deduplicated atomic facts)</i>"]
     end
 
-    subgraph GOLD["🥇 CAPA ORO (Aggregated, Curated & Business-Ready)"]
-        G1["fact_daily_product_revenue<br/><i>(Pre-agregación diaria: Net Revenue por SKU)</i>"]
-        G2["queries_negocio.sql<br/><i>(7 Consultas analíticas estratégicas)</i>"]
-        G3["consultas_negocio.ipynb<br/><i>(Cuaderno interactivo con KPIs ejecutivos)</i>"]
+    subgraph GOLD["🥇 GOLD LAYER (Aggregated, Curated & Business-Ready)"]
+        G1["fact_daily_product_revenue<br/><i>(Daily pre-aggregation: Net Revenue per SKU)</i>"]
+        G2["queries_negocio.sql<br/><i>(7 Strategic analytical SQL queries)</i>"]
+        G3["consultas_negocio.ipynb<br/><i>(Interactive notebook with executive KPIs)</i>"]
     end
 
-    B1 & B2 -->|Validación, Limpieza y Deduplicación| SILVER
-    B1 -->|Violación de Calidad| B3
-    SILVER -->|Agregación y Métricas de Negocio| GOLD
+    B1 & B2 -->|Validation, Cleaning & Deduplication| SILVER
+    B1 -->|Quality Violation| B3
+    SILVER -->|Aggregation & Business Metrics| GOLD
 ```
 
-* **🥉 Capa Bronce (Raw):** Preserva las fuentes en bruto tal como fueron recibidas (`data/raw/*.csv`, respuestas REST originales) y almacena registros anómalos en [`rejected_records`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql#L137) con formato `JSONB` original para auditoría forense sin pérdida de información.
-* **🥈 Capa Plata (Cleaned & Conformed):** Aplica validación estricta de calidad, deduplicación por clave natural compuesta priorizando `data.csv`, enriquecimiento con el catálogo FastAPI, estandarización de divisas a USD con Frankfurter API y estructuración en dimensiones conformadas y hechos atómicos segregados (`fact_sales` y `fact_returns`).
-* **🥇 Capa Oro (Business / Analytics-Ready):** Almacena las tablas agregadas de alto rendimiento como [`fact_daily_product_revenue`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql#L112) (revenue neto diario por SKU) y expone la capa de consumo analítico ([`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql) y [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb)) con respuestas sub-segundo para la gerencia.
+* **🥉 Bronze Layer (Raw):** Preserves raw source datasets as received (`data/raw/*.csv`, raw JSON API responses) and stores anomalous records in [`rejected_records`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql#L137) in raw `JSONB` format for forensic data audit without data loss.
+* **🥈 Silver Layer (Cleaned & Conformed):** Enforces strict quality validation, composite natural key deduplication prioritizing `data.csv`, category enrichment via FastAPI, currency standardization to USD with Frankfurter API, and atomic segregation into conformed dimensions and fact tables (`fact_sales` and `fact_returns`).
+* **🥇 Gold Layer (Business / Analytics-Ready):** Stores high-performance aggregated tables such as [`fact_daily_product_revenue`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql#L112) (daily net revenue per SKU) and exposes the consumption layer ([`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql) and [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb)) with sub-second response times for executive reporting.
 
-### 1.2 Diagrama Entidad-Relación del Data Warehouse (Modelo Dimensional en Estrella de Kimball)
+### 1.2 Data Warehouse Entity-Relationship Diagram (Kimball Star Schema)
 
 ```mermaid
 erDiagram
@@ -174,84 +176,84 @@ erDiagram
     }
 ```
 
-> 📌 **Modelo en dbdiagram.io:**
-> * 🌐 **Visualización Interactiva Pública (Web):** [DataMart S.A.S. — Data Warehouse & Analytics Data Model](https://dbdiagram.io/d/DataMart-S-A-S-—-Data-Warehouse-and-Analytics-Data-Model-6ae0c592ed134e407e204467)
-> * 📄 **Archivo Fuente DBML:** [`docs/diagrama_modelo_datos.dbml`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/diagrama_modelo_datos.dbml)
-> * 📑 **Detalle en Decisiones Técnicas:** [Sección 5 de DECISIONES.md](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/DECISIONES.md#5-diagrama-del-modelo-de-datos-dbdiagramio)
+> 📌 **Data Model on dbdiagram.io:**
+> * 🌐 **Public Interactive Visualization (Web):** [DataMart S.A.S. — Data Warehouse & Analytics Data Model](https://dbdiagram.io/d/DataMart-S-A-S-—-Data-Warehouse-and-Analytics-Data-Model-6ae0c592ed134e407e204467)
+> * 📄 **DBML Source Code File:** [`docs/diagrama_modelo_datos.dbml`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/diagrama_modelo_datos.dbml)
+> * 📑 **Technical Decisions Reference:** [Section 5 in DECISIONS.md](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/DECISIONS.md#5-data-model-diagram-dbdiagramio)
 
 ---
 
-## 2. Pila Tecnológica
+## 2. Technology Stack
 
-| Componente | Tecnología | Versión / Puerto | Función |
+| Component | Technology | Version / Port | Purpose |
 | :--- | :--- | :--- | :--- |
-| **Orquestador** | Apache Airflow | `3.3.2` (`:8080`) | Planificación, reintentos y orquestación del DAG diario |
-| **Broker de Mensajes** | RabbitMQ | `3-management-alpine` (`:15672` / `:5672`) | Broker distribuido para CeleryExecutor |
-| **Microservicio Catálogo** | FastAPI + Uvicorn | Python 3.11 (`:8000`) | Taxonomía, proveedor y estado activo/descontinuado |
-| **API de Divisas** | Frankfurter API | REST (`api.frankfurter.dev`) | Tasas de cambio en vivo hacia USD con fallback semilla local |
-| **Data Warehouse** | PostgreSQL | `15-alpine` (`:5433`) | Almacén analítico dimensional y hechos segregados |
-| **Metastore Airflow** | PostgreSQL | `15-alpine` (Interno `5432`) | Base de datos de estado y metadatos de Airflow |
-| **Contenedores** | Docker & Docker Compose | v2+ | Despliegue automatizado sin intervención manual |
-| **Calidad y ETL** | Python / Pandas / Psycopg2 | 3.13 | Clean Architecture, SOLID e Idempotencia con UPSERTs |
+| **Orchestrator** | Apache Airflow | `3.3.2` (`:8080`) | Scheduling, retries, and daily DAG orchestration |
+| **Message Broker** | RabbitMQ | `3-management-alpine` (`:15672` / `:5672`) | Distributed broker for CeleryExecutor |
+| **Catalog Microservice** | FastAPI + Uvicorn | Python 3.11 (`:8000`) | Product taxonomy, supplier country, and active status |
+| **Currency API** | Frankfurter API | REST (`api.frankfurter.dev`) | Live currency conversion rates to USD with seed fallback |
+| **Data Warehouse** | PostgreSQL | `15-alpine` (`:5433`) | Analytical dimensional warehouse with segregated facts |
+| **Airflow Metastore** | PostgreSQL | `15-alpine` (Internal `5432`) | State and task instance metadata database |
+| **Containers** | Docker & Docker Compose | v2+ | Zero-manual intervention containerized deployment |
+| **Quality & ETL** | Python / Pandas / Psycopg2 | 3.13 | Clean Architecture, SOLID principles, and UPSERT idempotency |
 
 ---
 
-## 3. Guía de Despliegue Rápido (< 10 Minutos)
+## 3. Quickstart Deployment Guide (< 10 Minutes)
 
-El entorno cuenta con **autoconfiguración total (*Zero-Manual Intervention*)**: al levantar los contenedores con Docker Compose, el servicio `airflow-init` crea automáticamente la base de datos, ejecuta las migraciones, registra al usuario administrador, configura la conexión de PostgreSQL DWH y establece todas las variables operativas en Airflow.
+The environment features **Zero-Manual Intervention**: when launching containers via Docker Compose, the `airflow-init` service automatically provisions the database, applies migrations, registers the admin user, configures the PostgreSQL DWH connection, and sets all operational Airflow variables.
 
-### Paso 1: Clonar el Repositorio
+### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/JayzirTech/datamart-analytics-etl-pipeline.git
 cd datamart-analytics-etl-pipeline
 ```
 
-### Paso 2: Crear el Archivo de Variables de Entorno
-Copia la plantilla preconfigurada `.env.example` a `.env`:
+### Step 2: Create Environment Variables File
+Copy the pre-configured `.env.example` template to `.env`:
 ```bash
-# En Windows PowerShell:
+# In Windows PowerShell:
 Copy-Item .env.example .env
 
-# En Linux / macOS / Bash:
+# In Linux / macOS / Bash:
 cp .env.example .env
 ```
 
-*(Las credenciales y puertos por defecto ya vienen listos para funcionar sin requerir modificaciones adicionales).*
+*(Default credentials and ports are pre-configured to work out-of-the-box without manual modifications).*
 
-### Paso 3: Levantar los Contenedores
-Ejecuta Docker Compose para compilar e iniciar los 8 servicios en segundo plano:
+### Step 3: Start All Containers
+Launch Docker Compose to build and start the 8 services in the background:
 ```bash
 docker compose up -d
 ```
 
-### Paso 4: Verificar el Estado de los Servicios
-Verifica que todos los contenedores estén activos y saludables:
+### Step 4: Verify Container Health
+Verify that all containers are active and healthy:
 ```bash
 docker compose ps
 ```
 
-Deberás observar los siguientes contenedores activos:
+You should see the following active containers:
 * `datamart_airflow_webserver` — `Up` (`http://localhost:8080`)
 * `datamart_airflow_scheduler` — `Up`
 * `datamart_airflow_worker` — `Up`
 * `datamart_airflow_dag_processor` — `Up`
 * `datamart_fastapi_products` — `Up (healthy)` (`http://localhost:8000`)
-* `datamart_postgres_dwh` — `Up (healthy)` (Puerto `5433`)
+* `datamart_postgres_dwh` — `Up (healthy)` (Port `5433`)
 * `datamart_postgres_airflow` — `Up (healthy)`
 * `datamart_rabbitmq` — `Up (healthy)` (`http://localhost:15672`)
-* `datamart_airflow_init` — `Exited (0)` *(normal, finalizó exitosamente la inicialización)*
+* `datamart_airflow_init` — `Exited (0)` *(normal, initialization completed successfully)*
 
 ---
 
-## 4. Validación de Connections y Variables en Airflow
+## 4. Airflow Connections and Variables Validation
 
-Para certificar que la autoconfiguración del pipeline se ejecutó correctamente sin intervención humana, ejecuta las siguientes comprobaciones:
+To certify that the pipeline self-configuration executed without manual human intervention, run the following verification commands:
 
-### 4.1 Validar la Conexión hacia el Data Warehouse (`postgres_dwh_conn`)
+### 4.1 Validate Data Warehouse Connection (`postgres_dwh_conn`)
 ```bash
 docker exec datamart_airflow_scheduler airflow connections get postgres_dwh_conn
 ```
-> **Salida esperada:**
+> **Expected Output:**
 > ```text
 > conn_type: postgres
 > host: postgres_dwh
@@ -260,11 +262,11 @@ docker exec datamart_airflow_scheduler airflow connections get postgres_dwh_conn
 > login: dwh_user
 > ```
 
-### 4.2 Validar las Variables Operativas de Airflow
+### 4.2 Validate Operational Airflow Variables
 ```bash
 docker exec datamart_airflow_scheduler airflow variables list
 ```
-> **Salida esperada:**
+> **Expected Output:**
 > ```text
 > key                  
 > ====================
@@ -276,9 +278,9 @@ docker exec datamart_airflow_scheduler airflow variables list
 
 ---
 
-## 5. Accesos y Credenciales de Servicios
+## 5. Service Access and Credentials
 
-| Servicio | URL Local | Usuario | Contraseña |
+| Service | Local URL | Username | Password |
 | :--- | :--- | :--- | :--- |
 | **Airflow Web UI** | [http://localhost:8080](http://localhost:8080) | `admin` | `admin` |
 | **FastAPI Swagger Docs** | [http://localhost:8000/docs](http://localhost:8000/docs) | N/A | N/A |
@@ -287,18 +289,18 @@ docker exec datamart_airflow_scheduler airflow variables list
 
 ---
 
-## 6. Ejecución del Pipeline ETL en Airflow
+## 6. Airflow ETL Pipeline Execution
 
-El DAG **`datamart_etl_daily_pipeline`** está configurado con schedule diario y reintentos automáticos (`retries=2, retry_delay=60s`).
+The DAG **`datamart_etl_daily_pipeline`** is configured with a daily schedule and automatic retries (`retries=2, retry_delay=60s`).
 
-### Disparar el Pipeline Manualmente:
-1. **Desde la Web UI:** Ingresa a [http://localhost:8080](http://localhost:8080), localiza `datamart_etl_daily_pipeline` y pulsa el botón **Trigger DAG (▶)**.
-2. **Desde la Consola CLI:**
+### Trigger the Pipeline Manually:
+1. **Via Web UI:** Open [http://localhost:8080](http://localhost:8080), locate `datamart_etl_daily_pipeline`, and click **Trigger DAG (▶)**.
+2. **Via CLI:**
    ```bash
    docker exec datamart_airflow_scheduler airflow dags trigger datamart_etl_daily_pipeline
    ```
 
-### Fases de Ejecución del DAG:
+### DAG Execution Phases:
 ```mermaid
 graph LR
     A[task_verify_sources] --> B[task_extract_currency_rates]
@@ -306,28 +308,28 @@ graph LR
     C --> D[task_audit_data_quality]
 ```
 
-1. **`task_verify_sources`:** Valida la presencia de `data.csv` y `online_retail_II.csv` en `data/raw/`.
-2. **`task_extract_currency_rates`:** Consulta en vivo **Frankfurter API** (`https://api.frankfurter.dev/v1/latest?base=USD`) y sincroniza 29 tasas de cambio vigentes en `dim_exchange_rates`.
+1. **`task_verify_sources`:** Verifies presence of `data.csv` and `online_retail_II.csv` in `data/raw/`.
+2. **`task_extract_currency_rates`:** Queries the live **Frankfurter API** (`https://api.frankfurter.dev/v1/latest?base=USD`) and synchronizes 29 active currency exchange rates to `dim_exchange_rates`.
 3. **`task_run_full_etl`:**
-   * Aplica reglas de limpieza y validación de calidad.
-   * Asigna `'ANONYMOUS'` a clientes nulos (ADR-0002).
-   * Deduplica por clave natural compuesta con prioridad a `data.csv` (ADR-0004).
-   * Calcula la descripción canónica por moda estadística (ADR-0003).
-   * Consulta el catálogo del microservicio FastAPI (`/products/bulk`) y enriquece categorías (ADR-0001).
-   * Convierte todos los precios a USD.
-   * Segrega ventas en `fact_sales` y devoluciones en `fact_returns` (ADR-0008).
-   * Calcula y persiste el Revenue Neto diario en `fact_daily_product_revenue` (ADR-0008).
-4. **`task_audit_data_quality`:** Audita conteos, sumas de control y tasas de rechazo.
+   * Enforces data cleaning and validation rules.
+   * Assigns `'ANONYMOUS'` to null customer records (ADR-0002).
+   * Deduplicates overlapping records via composite natural key prioritizing `data.csv` (ADR-0004).
+   * Computes canonical product descriptions using statistical mode (ADR-0003).
+   * Queries the FastAPI product catalog (`/products/bulk`) and enriches categories (ADR-0001).
+   * Standardizes all transactional amounts to USD.
+   * Segregates valid sales into `fact_sales` and returns into `fact_returns` (ADR-0008).
+   * Pre-calculates and persists Daily Net Revenue in `fact_daily_product_revenue` (ADR-0008).
+4. **`task_audit_data_quality`:** Audits row counts, check sums, and rejection rates.
 
 ---
 
-## 7. Verificación de Carga y Consultas de Negocio
+## 7. Data Load Verification and Business Queries
 
-### 7.1 Comprobar Conteo de Filas en PostgreSQL DWH
-Ejecuta una consulta rápida para validar los datos en el Data Warehouse:
+### 7.1 Verify Row Counts in PostgreSQL DWH
+Run a query to validate loaded volumes in the Data Warehouse:
 ```bash
 docker exec datamart_postgres_dwh psql -U dwh_user -d datamart_dwh -c "
-SELECT 'fact_sales' AS tabla, count(*) AS total_filas FROM fact_sales
+SELECT 'fact_sales' AS table_name, count(*) AS total_rows FROM fact_sales
 UNION ALL SELECT 'fact_returns', count(*) FROM fact_returns
 UNION ALL SELECT 'fact_daily_product_revenue', count(*) FROM fact_daily_product_revenue
 UNION ALL SELECT 'dim_products', count(*) FROM dim_products
@@ -337,89 +339,88 @@ UNION ALL SELECT 'rejected_records', count(*) FROM rejected_records;
 "
 ```
 
-> **Volúmenes Esperados en DWH:**
-> * `fact_sales`: **524,796 filas**
-> * `fact_returns`: **9,177 filas**
-> * `fact_daily_product_revenue`: **278,011 filas**
-> * `dim_products`: **3,828 productos**
-> * `dim_customers`: **4,372 clientes**
-> * `rejected_records`: **5,034 filas auditadas**
+> **Expected Volumes in DWH:**
+> * `fact_sales`: **524,796 rows**
+> * `fact_returns`: **9,177 rows**
+> * `fact_daily_product_revenue`: **278,011 rows**
+> * `dim_products`: **3,828 products**
+> * `dim_customers`: **4,372 customers**
+> * `rejected_records`: **5,034 audited rows**
 
-### 7.2 Ejecutar las 7 Consultas de Negocio (Sección 7)
-El archivo [`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql) contiene las consultas que resuelven formalmente cada una de las 7 preguntas del enunciado:
+### 7.2 Execute the 7 Business Queries (Section 7)
+The SQL file [`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql) formally answers each of the 7 business evaluation questions:
 
 ```bash
-# En Windows PowerShell:
+# In Windows PowerShell:
 Get-Content "sql/queries_negocio.sql" | docker exec -i datamart_postgres_dwh psql -U dwh_user -d datamart_dwh
 
-# En Linux / macOS / Bash:
+# In Linux / macOS / Bash:
 docker exec -i datamart_postgres_dwh psql -U dwh_user -d datamart_dwh < sql/queries_negocio.sql
 ```
 
-### 7.3 Exploración Interactiva en Cuaderno Jupyter
-Para una experiencia visual interactiva donde todos los cálculos, conclusiones y porcentajes son calculados dinámicamente por código Python:
-* Abre el archivo [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb) directamente en VS Code o JupyterLab.
-* Contiene tablas tabuladas en HTML y métricas calculadas en tiempo real a partir del Data Warehouse.
+### 7.3 Interactive Exploration via Jupyter Notebook
+For a visual, interactive experience where all calculations, percentages, and conclusions are generated dynamically via Python code:
+* Open [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb) directly in VS Code or JupyterLab.
+* Features formatted HTML tables and real-time analytical metrics derived directly from the Data Warehouse.
 
 ---
 
-## 8. Principios SOLID y Clean Architecture en el Código (`src/`)
+## 8. SOLID Principles & Clean Architecture in Code (`src/`)
 
-El código fue estructurado bajo una estricta separación de responsabilidades para garantizar mantenibilidad, testabilidad desacoplada y extensibilidad:
+Source code follows a strict separation of concerns to ensure maintainability, decoupled testability, and extensibility:
 
 ```
 src/
-├── interfaces/             # Contratos abstractos (Interface Segregation / Dependency Inversion)
+├── interfaces/             # Abstract contracts (Interface Segregation / Dependency Inversion)
 │   ├── extractor.py        # BaseExtractor
 │   ├── validator.py        # BaseValidator
 │   ├── transformer.py      # BaseTransformer
 │   └── loader.py           # BaseLoader
-├── extractors/             # Implementaciones de extracción desacopladas
-│   ├── kaggle_extractor.py # Descarga y lectura de datasets crudos
-│   ├── currency_extractor.py # Consulta de Frankfurter API con fallback semilla
-│   └── api_extractor.py    # Cliente REST HTTP para microservicio FastAPI
-├── validators/             # Reglas de calidad y segregación de rechazos
-│   └── data_validator.py   # Validación de tipos, precios <= 0 y registros anómalos
-├── transformers/           # Transformaciones puras de negocio
-│   └── datamart_transformer.py # Clave compuesta, moda canónica, conversión USD
-├── loaders/                # Cargas idempotentes a base de datos
-│   └── postgres_loader.py  # Inserciones por lotes (execute_batch) con ON CONFLICT
-└── config/                 # Semillas de respaldo y configuraciones operativas
-    ├── exchange_rates_seed.json # Paridades offline para fallback de divisas
+├── extractors/             # Decoupled extraction implementations
+│   ├── kaggle_extractor.py # Raw dataset downloading and loading
+│   ├── currency_extractor.py # Frankfurter API client with seed fallback
+│   └── api_extractor.py    # REST HTTP client for FastAPI microservice
+├── validators/             # Quality rules and rejection segregation
+│   └── data_validator.py   # Type checking, prices <= 0, and anomaly filtering
+├── transformers/           # Pure business transformations
+│   └── datamart_transformer.py # Composite key, canonical mode, USD conversion
+├── loaders/                # Idempotent database loaders
+│   └── postgres_loader.py  # Batch loading (execute_batch) with ON CONFLICT clauses
+└── config/                 # Seeds and operational configuration
+    ├── exchange_rates_seed.json # Offline parity backup seed
     └── settings.py
 ```
 
-* **Single Responsibility Principle (SRP):** Cada módulo tiene un único motivo de cambio (el extractor solo extrae, el validador solo audita calidad, el cargador solo ejecuta sentencias en base de datos).
-* **Open/Closed Principle (OCP):** Nuevas fuentes de datos (ej. S3, BigQuery) pueden incorporarse extendiendo `BaseExtractor` sin tocar el motor de transformación.
-* **Liskov Substitution Principle (LSP):** Cualquier extractor o cargador implementa la interfaz base y es intercambiable en el pipeline.
-* **Interface Segregation Principle (ISP):** Interfaces pequeñas y específicas orientadas a la tarea ETL concreta.
-* **Dependency Inversion Principle (DIP):** Las tareas de Airflow dependen de abstracciones (`BaseExtractor`, `BaseLoader`), no de implementaciones concretas fijas.
+* **Single Responsibility Principle (SRP):** Each module has a single reason to change (extractor extracts, validator audits quality, loader manages persistence).
+* **Open/Closed Principle (OCP):** New data sources (e.g., S3, BigQuery) can be added by extending `BaseExtractor` without altering transformation logic.
+* **Liskov Substitution Principle (LSP):** Any extractor or loader implements the base contract and is interchangeable in the pipeline.
+* **Interface Segregation Principle (ISP):** Lean, specific interfaces tailored to concrete ETL stages.
+* **Dependency Inversion Principle (DIP):** Airflow tasks depend on abstractions (`BaseExtractor`, `BaseLoader`), not concrete implementations.
 
 ---
 
-## 9. Documentos de Entrega y Referencias Técnicas
+## 9. Delivery Deliverables & Technical References
 
-1. **Documento Consolidado de Decisiones Técnicas:** [`DECISIONES.md`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/DECISIONES.md) (Justificación DWH, resolución de ambigüedades y garantía de idempotencia).
-2. **Diagrama Interactivo en dbdiagram.io:** [Visualización Pública Web](https://dbdiagram.io/d/DataMart-S-A-S-—-Data-Warehouse-and-Analytics-Data-Model-6ae0c592ed134e407e204467) | [Archivo Fuente DBML](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/diagrama_modelo_datos.dbml).
-3. **Exploración de Datos (EDA):** [`docs/EXPLORACION_DATOS.md`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/EXPLORACION_DATOS.md).
-4. **Registro de Decisiones de Arquitectura (14 ADRs):** [`docs/adr/`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/adr/README.md).
-5. **Consultas SQL de Negocio:** [`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql).
-6. **Cuaderno Analítico Interactivo:** [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb).
-7. **DDL del Data Warehouse:** [`dwh_init/01_init_dwh.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql).
+1. **Consolidated Technical Decisions Document:** [`DECISIONS.md`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/DECISIONS.md) (DWH justification, ambiguous cases resolution, and idempotency guarantees).
+2. **Interactive Diagram on dbdiagram.io:** [Public Cloud Visualization](https://dbdiagram.io/d/DataMart-S-A-S-—-Data-Warehouse-and-Analytics-Data-Model-6ae0c592ed134e407e204467) | [DBML Source File](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/diagrama_modelo_datos.dbml).
+3. **Exploratory Data Analysis (EDA):** [`docs/EXPLORACION_DATOS.md`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/EXPLORACION_DATOS.md).
+4. **Architecture Decision Records (14 ADRs):** [`docs/adr/`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/adr/README.md).
+5. **Business SQL Queries:** [`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql).
+6. **Interactive Analytical Notebook:** [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb).
+7. **Data Warehouse DDL Schema:** [`dwh_init/01_init_dwh.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql).
 
 ---
 
-## 10. Video Demostración del Pipeline (End-to-End)
+## 10. End-to-End Pipeline Video Demonstration
 
-Como evidencia del funcionamiento integral del sistema y cumplimiento de la rúbrica de evaluación oficial (20/20 pts en documentación y decisiones), se incluye la demostración en video del pipeline ejecutándose de extremo a extremo:
+As required by the official evaluation rubric (20/20 pts in documentation and technical decisions), a complete end-to-end video walkthrough of the running system is provided:
 
-* 🎥 **Enlace al Video Demo:** [Ver Video Demostración en YouTube (https://youtu.be/M46kV_vK2ys)](https://youtu.be/M46kV_vK2ys)
+* 🎥 **Video Demo Link:** [Watch Video Demonstration on YouTube (https://youtu.be/M46kV_vK2ys)](https://youtu.be/M46kV_vK2ys)
 
-### Puntos clave cubiertos en la demostración:
-1. **Despliegue Automatizado:** Ejecución de `docker compose up -d` y comprobación de los 8 contenedores en estado `healthy`.
-2. **Microservicio FastAPI:** Verificación de los endpoints `/health` y `/products` en `http://localhost:8000/docs`.
-3. **Apache Airflow:** Interfaz en `http://localhost:8080`, revisión de la conexión `postgres_dwh_conn` y variables operativas (`FRANKFURTER_API_URL`, `RAW_DATA_PATH`, etc.).
-4. **Ejecución y Monitoreo del DAG:** Disparo del DAG `datamart_etl_daily_pipeline` y ejecución exitosa de sus 4 tareas (`success`).
-5. **Data Warehouse en PostgreSQL:** Validación de filas en puerto `5433`, ejecución de [`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql) y cuaderno interactivo [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb).
-6. **Modelo de Datos:** Visualización interactiva en [dbdiagram.io](https://dbdiagram.io/d/DataMart-S-A-S-—-Data-Warehouse-and-Analytics-Data-Model-6ae0c592ed134e407e204467).
-
+### Key Demonstration Highlights:
+1. **Automated Deployment:** Executing `docker compose up -d` and checking all 8 containers in `healthy` status.
+2. **FastAPI Microservice:** Testing `/health` and `/products/{code}` endpoints on `http://localhost:8000/docs`.
+3. **Apache Airflow:** UI on `http://localhost:8080`, validation of `postgres_dwh_conn` and operational variables (`FRANKFURTER_API_URL`, `RAW_DATA_PATH`, etc.).
+4. **DAG Execution & Monitoring:** Successful execution of DAG `datamart_etl_daily_pipeline` across all 4 tasks in green (`success`).
+5. **PostgreSQL Data Warehouse:** Row count validation on port `5433`, execution of [`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql), and interactive results in [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb).
+6. **Data Modeling:** Interactive Star Schema walkthrough on [dbdiagram.io](https://dbdiagram.io/d/DataMart-S-A-S-—-Data-Warehouse-and-Analytics-Data-Model-6ae0c592ed134e407e204467).

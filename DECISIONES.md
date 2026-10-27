@@ -1,8 +1,10 @@
 # DataMart S.A.S. — Documento de Decisiones Técnicas y de Arquitectura
 **Prueba de Desempeño:** Pipeline ETL con Apache Airflow y Data Warehouse en PostgreSQL  
 **Candidato / Autor:** Jayzir Martínez | DataMart Analytics Team  
-**Fecha:** Octubre 2026 | Cohorte 7  
+**Fecha:** Octubre 2026 | Cohorte 5  
 **Repositorio Oficial:** [`https://github.com/JayzirTech/datamart-analytics-etl-pipeline.git`](https://github.com/JayzirTech/datamart-analytics-etl-pipeline.git)
+
+> 🌐 **Language / Idioma:** [English](DECISIONS.md) | **Español**
 
 ---
 
