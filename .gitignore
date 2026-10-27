@@ -21,6 +21,7 @@ data/processed/
 # Airflow logs and temporary files
 logs/
 *.log
+*.generated
 
 # Docker and OS files
 .DS_Store

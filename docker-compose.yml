@@ -99,13 +99,18 @@ services:
       AIRFLOW__CELERY__BROKER_URL: amqp://${RABBITMQ_DEFAULT_USER:-airflow_broker}:${RABBITMQ_DEFAULT_PASS:-broker_secret_password}@rabbitmq:5672//
       AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
-      AIRFLOW__CORE__FERNET_KEY: ''
+      AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW__CORE__FERNET_KEY:-g6pFU0xOOZPBalTQDRbuipNBy7uakaCsmmzu-UGp7-s=}
+      AIRFLOW__API_AUTH__JWT_SECRET: ${AIRFLOW__API_AUTH__JWT_SECRET:-ceEeOZ7Xi6dVFAEDefliP4PuBi3kB6IPNgZuwJKzywM}
+      AIRFLOW__API__SECRET_KEY: ${AIRFLOW__API__SECRET_KEY:-sI9_4nbvaWjMWShak-DQan2BIHr9UyCTIB475FBNbCM}
       AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_ALL_ADMINS: 'true'
       AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS: 'admin:admin'
+      AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-webserver:8080/execution/'
       AIRFLOW_CONN_POSTGRES_DWH_CONN: postgresql://${DWH_DB_USER:-dwh_user}:${DWH_DB_PASSWORD:-dwh_secret_password}@postgres_dwh:5432/${DWH_DB_NAME:-datamart_dwh}
       AIRFLOW_VAR_RAW_DATA_PATH: ${RAW_DATA_PATH:-/opt/airflow/data/raw}
       AIRFLOW_VAR_FASTAPI_BASE_URL: ${FASTAPI_BASE_URL:-http://fastapi_products:8000}
+      AIRFLOW_VAR_FRANKFURTER_API_URL: ${FRANKFURTER_API_URL:-https://api.frankfurter.dev/v1/latest?base=USD}
       AIRFLOW_VAR_PIPELINE_ENVIRONMENT: ${PIPELINE_ENVIRONMENT:-development}
+      FRANKFURTER_API_URL: ${FRANKFURTER_API_URL:-https://api.frankfurter.dev/v1/latest?base=USD}
       _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-admin}
       _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-admin}
       _AIRFLOW_WWW_USER_ROLE: ${_AIRFLOW_WWW_USER_ROLE:-Admin}
@@ -120,6 +125,7 @@ services:
       - ./scripts:/opt/airflow/scripts
       - ./data:/opt/airflow/data
       - ./logs:/opt/airflow/logs
+      - ./scripts/simple_auth_manager_passwords.json.generated:/opt/airflow/simple_auth_manager_passwords.json.generated
     depends_on:
       postgres_airflow:
         condition: service_healthy

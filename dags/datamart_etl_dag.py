@@ -80,15 +80,17 @@ def verify_sources_fn(**kwargs):
     """
     raw_path = Variable.get("RAW_DATA_PATH", default_var="/opt/airflow/data/raw")
     api_url = Variable.get("FASTAPI_BASE_URL", default_var="http://fastapi_products:8000")
+    frankfurter_url = Variable.get("FRANKFURTER_API_URL", default_var="https://api.frankfurter.dev/v1/latest?base=USD")
     print(f">> [DAG] Variable RAW_DATA_PATH: {raw_path}")
     print(f">> [DAG] Variable FASTAPI_BASE_URL: {api_url}")
+    print(f">> [DAG] Variable FRANKFURTER_API_URL: {frankfurter_url}")
 
     if not os.path.exists(raw_path):
         os.makedirs(raw_path, exist_ok=True)
     
     files = os.listdir(raw_path)
     print(f">> [DAG] Archivos en carpeta de datos: {files}")
-    return {"raw_path": raw_path, "api_url": api_url, "files_found": files}
+    return {"raw_path": raw_path, "api_url": api_url, "frankfurter_url": frankfurter_url, "files_found": files}
 
 
 def extract_currency_rates_fn(**kwargs):
@@ -96,7 +98,8 @@ def extract_currency_rates_fn(**kwargs):
     Tarea 2: Consulta Frankfurter API y persiste paridades hacia USD en dim_exchange_rates.
     """
     dwh_uri = get_dwh_connection_uri()
-    curr_extractor = CurrencyExtractor()
+    frankfurter_url = Variable.get("FRANKFURTER_API_URL", default_var="https://api.frankfurter.dev/v1/latest?base=USD")
+    curr_extractor = CurrencyExtractor(api_url=frankfurter_url)
     rates = curr_extractor.extract()
 
     loader = PostgresLoader(conn_uri=dwh_uri)

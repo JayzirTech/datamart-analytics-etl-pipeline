@@ -14,16 +14,22 @@ class CurrencyExtractor(BaseExtractor):
     2. En caso de fallo tras 3 reintentos, activa el fallback local (exchange_rates_seed.json).
     """
 
-    API_URL = "https://api.frankfurter.dev/v1/latest?base=USD"
+    DEFAULT_API_URL = "https://api.frankfurter.dev/v1/latest?base=USD"
     MAX_RETRIES = 3
     TIMEOUT_SECONDS = 5
 
-    def __init__(self, seed_path: str = None):
+    def __init__(self, seed_path: str = None, api_url: str = None):
         if not seed_path:
             seed_path = os.path.join(
                 os.path.dirname(__file__), "..", "config", "exchange_rates_seed.json"
             )
         self.seed_path = os.path.abspath(seed_path)
+        self.api_url = (
+            api_url
+            or os.getenv("FRANKFURTER_API_URL")
+            or os.getenv("AIRFLOW_VAR_FRANKFURTER_API_URL")
+            or self.DEFAULT_API_URL
+        )
         self.seed_data = self._load_seed()
         self.rates_to_usd: Dict[str, float] = {}
         self.country_to_currency = self.seed_data.get("country_to_currency", {})
@@ -62,7 +68,7 @@ class CurrencyExtractor(BaseExtractor):
     def _fetch_from_frankfurter(self) -> Dict[str, float]:
         for attempt in range(1, self.MAX_RETRIES + 1):
             try:
-                response = requests.get(self.API_URL, timeout=self.TIMEOUT_SECONDS)
+                response = requests.get(self.api_url, timeout=self.TIMEOUT_SECONDS)
                 if response.status_code == 200:
                     data = response.json()
                     return data.get("rates", {})

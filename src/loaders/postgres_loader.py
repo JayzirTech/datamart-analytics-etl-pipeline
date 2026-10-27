@@ -200,7 +200,7 @@ class PostgresLoader(BaseLoader):
         query = """
             INSERT INTO fact_daily_product_revenue (
                 invoice_date, product_key, gross_revenue, return_amount, net_revenue,
-                total_sold_qty, total_returned_qty, calculated_at_utc
+                total_sold_qty, total_returned_qty
             )
             VALUES %s
             ON CONFLICT (invoice_date, product_key) DO UPDATE

@@ -46,6 +46,7 @@ echo ">> [5/5] Inicializando Airflow Variables operativas del pipeline..."
 echo "========================================================================"
 airflow variables set RAW_DATA_PATH "${RAW_DATA_PATH:-/opt/airflow/data/raw}"
 airflow variables set FASTAPI_BASE_URL "${FASTAPI_BASE_URL:-http://fastapi_products:8000}"
+airflow variables set FRANKFURTER_API_URL "${FRANKFURTER_API_URL:-https://api.frankfurter.dev/v1/latest?base=USD}"
 airflow variables set PIPELINE_ENVIRONMENT "${PIPELINE_ENVIRONMENT:-development}"
 
 echo "========================================================================"
