@@ -130,7 +130,10 @@ erDiagram
     }
 ```
 
-> 📌 **Código dbdiagram.io:** Puedes visualizar este modelo directamente en [dbdiagram.io](https://dbdiagram.io) usando el archivo [`docs/diagrama_modelo_datos.dbml`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/diagrama_modelo_datos.dbml) o revisando la [Sección 5 de DECISIONES.md](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/DECISIONES.md#5-código-para-dbdiagramio-diagrama-de-datos).
+> 📌 **Modelo en dbdiagram.io:**
+> * 🌐 **Visualización Interactiva Pública (Web):** [DataMart S.A.S. — Data Warehouse & Analytics Data Model](https://dbdiagram.io/d/DataMart-S-A-S-—-Data-Warehouse-and-Analytics-Data-Model-6ae0c592ed134e407e204467)
+> * 📄 **Archivo Fuente DBML:** [`docs/diagrama_modelo_datos.dbml`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/diagrama_modelo_datos.dbml)
+> * 📑 **Detalle en Decisiones Técnicas:** [Sección 5 de DECISIONES.md](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/DECISIONES.md#5-diagrama-del-modelo-de-datos-dbdiagramio)
 
 ---
 
@@ -352,9 +355,10 @@ src/
 
 ## 9. Documentos de Entrega y Referencias Técnicas
 
-1. **Documento Consolidado de Decisiones Técnicas:** [`DECISIONES.md`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/DECISIONES.md) (Justificación DWH, resolución de ambigüedades, garantía de idempotencia y código dbdiagram.io).
-2. **Exploración de Datos (EDA):** [`docs/EXPLORACION_DATOS.md`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/EXPLORACION_DATOS.md).
-3. **Registro de Decisiones de Arquitectura (14 ADRs):** [`docs/adr/`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/adr/README.md).
-4. **Consultas SQL de Negocio:** [`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql).
-5. **Cuaderno Analítico Interactivo:** [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb).
-6. **DDL del Data Warehouse:** [`dwh_init/01_init_dwh.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql).
+1. **Documento Consolidado de Decisiones Técnicas:** [`DECISIONES.md`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/DECISIONES.md) (Justificación DWH, resolución de ambigüedades y garantía de idempotencia).
+2. **Diagrama Interactivo en dbdiagram.io:** [Visualización Pública Web](https://dbdiagram.io/d/DataMart-S-A-S-—-Data-Warehouse-and-Analytics-Data-Model-6ae0c592ed134e407e204467) | [Archivo Fuente DBML](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/diagrama_modelo_datos.dbml).
+3. **Exploración de Datos (EDA):** [`docs/EXPLORACION_DATOS.md`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/EXPLORACION_DATOS.md).
+4. **Registro de Decisiones de Arquitectura (14 ADRs):** [`docs/adr/`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/adr/README.md).
+5. **Consultas SQL de Negocio:** [`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql).
+6. **Cuaderno Analítico Interactivo:** [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb).
+7. **DDL del Data Warehouse:** [`dwh_init/01_init_dwh.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql).
