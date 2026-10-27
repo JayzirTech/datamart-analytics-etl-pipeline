@@ -85,7 +85,7 @@ services:
   # 5. Inicializador de Airflow (Migraciones, Admin, Conexiones, Variables y Datos)
   # ============================================================================
   airflow-init:
-    build:
+    build: &airflow-build
       context: .
       dockerfile: Dockerfile.airflow
     image: datamart-airflow:3.3.2
@@ -104,6 +104,7 @@ services:
       AIRFLOW__API__SECRET_KEY: ${AIRFLOW__API__SECRET_KEY:-sI9_4nbvaWjMWShak-DQan2BIHr9UyCTIB475FBNbCM}
       AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_ALL_ADMINS: 'false'
       AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS: 'admin:Admin'
+      AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_PASSWORDS_FILE: /opt/airflow/simple_auth_manager_passwords.json
       AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-webserver:8080/execution/'
       AIRFLOW_CONN_POSTGRES_DWH_CONN: postgresql://${DWH_DB_USER:-dwh_user}:${DWH_DB_PASSWORD:-dwh_secret_password}@postgres_dwh:5432/${DWH_DB_NAME:-datamart_dwh}
       AIRFLOW_VAR_RAW_DATA_PATH: ${RAW_DATA_PATH:-/opt/airflow/data/raw}
@@ -126,7 +127,7 @@ services:
       - ./notebooks:/opt/airflow/notebooks
       - ./data:/opt/airflow/data
       - ./logs:/opt/airflow/logs
-      - ./scripts/simple_auth_manager_passwords.json.generated:/opt/airflow/simple_auth_manager_passwords.json.generated
+      - ./scripts/simple_auth_manager_passwords.json:/opt/airflow/simple_auth_manager_passwords.json
     depends_on:
       postgres_airflow:
         condition: service_healthy
@@ -143,6 +144,7 @@ services:
   # 6. Webserver de Airflow (UI http://localhost:8080)
   # ============================================================================
   airflow-webserver:
+    build: *airflow-build
     image: datamart-airflow:3.3.2
     container_name: datamart_airflow_webserver
     command: api-server
@@ -162,6 +164,7 @@ services:
   # 7. Scheduler de Airflow
   # ============================================================================
   airflow-scheduler:
+    build: *airflow-build
     image: datamart-airflow:3.3.2
     container_name: datamart_airflow_scheduler
     command: scheduler
@@ -179,6 +182,7 @@ services:
   # 7b. DAG Processor de Airflow (Procesador de DAGs desacoplado en Airflow 3)
   # ============================================================================
   airflow-dag-processor:
+    build: *airflow-build
     image: datamart-airflow:3.3.2
     container_name: datamart_airflow_dag_processor
     command: dag-processor
@@ -197,6 +201,7 @@ services:
   # 8. Worker de Celery de Airflow
   # ============================================================================
   airflow-worker:
+    build: *airflow-build
     image: datamart-airflow:3.3.2
     container_name: datamart_airflow_worker
     command: celery worker

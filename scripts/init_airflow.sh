@@ -17,7 +17,10 @@ airflow db migrate
 echo "========================================================================"
 echo ">> [3/5] Configurando credenciales de usuario administrador de Airflow..."
 echo "========================================================================"
-python -c "import json; open('/opt/airflow/simple_auth_manager_passwords.json.generated', 'w').write(json.dumps({'${_AIRFLOW_WWW_USER_USERNAME:-admin}': '${_AIRFLOW_WWW_USER_PASSWORD:-admin}'}))"
+if [ -d "/opt/airflow/simple_auth_manager_passwords.json" ]; then
+    rm -rf "/opt/airflow/simple_auth_manager_passwords.json"
+fi
+python -c "import json; open('/opt/airflow/simple_auth_manager_passwords.json', 'w').write(json.dumps({'${_AIRFLOW_WWW_USER_USERNAME:-admin}': '${_AIRFLOW_WWW_USER_PASSWORD:-admin}'}))"
 airflow users create \
     --username "${_AIRFLOW_WWW_USER_USERNAME:-admin}" \
     --password "${_AIRFLOW_WWW_USER_PASSWORD:-admin}" \
