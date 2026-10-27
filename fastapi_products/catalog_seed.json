@@ -1,0 +1,702 @@
+[
+  {
+    "stock_code": "85123A",
+    "canonical_name": "WHITE HANGING HEART T-LIGHT HOLDER",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "71053",
+    "canonical_name": "WHITE METAL LANTERN",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "84406B",
+    "canonical_name": "CREAM CUPID HEARTS COAT HANGER",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "84029G",
+    "canonical_name": "KNITTED UNION FLAG HOT WATER BOTTLE",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "84029E",
+    "canonical_name": "RED WOOLLY HOTTIE WHITE HEART",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22752",
+    "canonical_name": "SET 7 BABUSHKA NESTING BOXES",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "21730",
+    "canonical_name": "GLASS STAR FROSTED T-LIGHT HOLDER",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22632",
+    "canonical_name": "HAND WARMER RED RETROSPOT",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": false
+  },
+  {
+    "stock_code": "22633",
+    "canonical_name": "HAND WARMER UNION JACK",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": false
+  },
+  {
+    "stock_code": "22149",
+    "canonical_name": "FELTCRAFT 6 FLOWER FRIENDS",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "21871",
+    "canonical_name": "SAVE THE PLANET MUG",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "21071",
+    "canonical_name": "VINTAGE BILLBOARD DRINK ME MUG",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22086",
+    "canonical_name": "PAPER CHAIN KIT 50'S CHRISTMAS",
+    "category": "Papelería",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22630",
+    "canonical_name": "DOLLY GIRL LUNCH BOX",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22629",
+    "canonical_name": "SPACEBOY LUNCH BOX",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22386",
+    "canonical_name": "JUMBO BAG PINK POLKADOT",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "85099B",
+    "canonical_name": "JUMBO BAG RED RETROSPOT",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "21931",
+    "canonical_name": "JUMBO STORAGE BAG SUKI",
+    "category": "Ropa",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22411",
+    "canonical_name": "JUMBO SHOPPER VINTAGE RED PAISLEY",
+    "category": "Ropa",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "20712",
+    "canonical_name": "JUMBO BAG WOODLAND ANIMALS",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "20725",
+    "canonical_name": "LUNCH BAG RED RETROSPOT",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "20727",
+    "canonical_name": "LUNCH BAG BLACK SKULL.",
+    "category": "Ropa",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "20728",
+    "canonical_name": "LUNCH BAG CARS BLUE",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22382",
+    "canonical_name": "LUNCH BAG SPACEBOY DESIGN",
+    "category": "Ropa",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22384",
+    "canonical_name": "LUNCH BAG PINK POLKADOT",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22960",
+    "canonical_name": "JAM MAKING SET WITH JARS",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22961",
+    "canonical_name": "JAM MAKING SET PRINTED",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22720",
+    "canonical_name": "SET OF 3 CAKE TINS PANTRY DESIGN",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22722",
+    "canonical_name": "SET OF 6 SPICE TINS PANTRY DESIGN",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22197",
+    "canonical_name": "SMALL POPCORN HOLDER",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "84879",
+    "canonical_name": "ASSORTED COLOUR BIRD ORNAMENT",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "23084",
+    "canonical_name": "RABBIT NIGHT LIGHT",
+    "category": "Electrónica",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22492",
+    "canonical_name": "MINI PAINT SET VINTAGE",
+    "category": "Papelería",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22616",
+    "canonical_name": "PACK OF 12 LONDON TISSUES",
+    "category": "Papelería",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22952",
+    "canonical_name": "60 CAKE CASES VINTAGE CHRISTMAS",
+    "category": "Papelería",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "21212",
+    "canonical_name": "PACK OF 72 RETROSPOT CAKE CASES",
+    "category": "Papelería",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22423",
+    "canonical_name": "REGENCY CAKESTAND 3 TIER",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "47566",
+    "canonical_name": "PARTY BUNTING",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "23203",
+    "canonical_name": "JUMBO BAG DOILEY PATTERNS",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "23209",
+    "canonical_name": "LUNCH BAG DOILEY PATTERN",
+    "category": "Ropa",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "21929",
+    "canonical_name": "JUMBO BAG VINTAGE POLKADOT",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22383",
+    "canonical_name": "LUNCH BAG SUKI DESIGN",
+    "category": "Ropa",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "20685",
+    "canonical_name": "DOORMAT RED RETROSPOT",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "21523",
+    "canonical_name": "DOORMAT FANCY FONT HOME SWEET HOME",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": false
+  },
+  {
+    "stock_code": "22909",
+    "canonical_name": "SET OF 20 VINTAGE CHRISTMAS NAPKINS",
+    "category": "Papelería",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22910",
+    "canonical_name": "PAPER CHAIN KIT VINTAGE CHRISTMAS",
+    "category": "Papelería",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "21034",
+    "canonical_name": "REX CASH+CARRY JUMBO SHOPPER",
+    "category": "Ropa",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22178",
+    "canonical_name": "VICTORIAN GLASS HANGING T-LIGHT",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "21790",
+    "canonical_name": "VINTAGE SNAP CARDS",
+    "category": "Papelería",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22138",
+    "canonical_name": "BAKING SET 9 PIECE RETROSPOT",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22139",
+    "canonical_name": "RETROSPOT TEA SET CERAMIC 11 PC",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22380",
+    "canonical_name": "TOY TIDY PINK POLKADOT",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22381",
+    "canonical_name": "TOY TIDY SPACEBOY",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "21232",
+    "canonical_name": "STRAWBERRY CERAMIC TRINKET BOX",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": false
+  },
+  {
+    "stock_code": "22077",
+    "canonical_name": "6 RIBBONS RUSTIC CHARM",
+    "category": "Papelería",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22111",
+    "canonical_name": "SCOTTIE DOG HOT WATER BOTTLE",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22112",
+    "canonical_name": "CHOCOLATE HOT WATER BOTTLE",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22114",
+    "canonical_name": "HOT WATER BOTTLE TEA AND SYMPATHY",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22834",
+    "canonical_name": "HAND WARMER BABUSHKA DESIGN",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": false
+  },
+  {
+    "stock_code": "22835",
+    "canonical_name": "HOT WATER BOTTLE I AM SO POOR",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "84836",
+    "canonical_name": "ZINC METAL HEART DECORATION",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "85152",
+    "canonical_name": "HAND WARMER RED LOVE HEART",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22554",
+    "canonical_name": "PLASTERS IN TIN WOODLAND ANIMALS",
+    "category": "Deportes",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22551",
+    "canonical_name": "PLASTERS IN TIN SPACEBOY",
+    "category": "Deportes",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22556",
+    "canonical_name": "PLASTERS IN TIN CIRCUS PARADE",
+    "category": "Deportes",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "21936",
+    "canonical_name": "RED RETROSPOT MINI BACKPACK",
+    "category": "Ropa",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22610",
+    "canonical_name": "PENS IN TIN VINTAGE CARS",
+    "category": "Papelería",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22608",
+    "canonical_name": "PENS IN TIN WOODLAND ANIMALS",
+    "category": "Papelería",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "21137",
+    "canonical_name": "BLACK RECORD COVER FRAME",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22915",
+    "canonical_name": "ASSORTED BOTTLE CRATE VINTAGE",
+    "category": "Deportes",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22469",
+    "canonical_name": "HEART OF WICKER SMALL",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22470",
+    "canonical_name": "HEART OF WICKER LARGE",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "84946",
+    "canonical_name": "ANTIQUE SILVER T-LIGHT GLASS",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22328",
+    "canonical_name": "ROUND SNACK BOXES SET OF 4 FRUITS",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22326",
+    "canonical_name": "ROUND SNACK BOXES SET OF 4 WOODLAND",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "21754",
+    "canonical_name": "HOME BUILDING BLOCK WORD",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "21755",
+    "canonical_name": "LOVE BUILDING BLOCK WORD",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "21210",
+    "canonical_name": "SET OF 72 RETROSPOT PAPER DOILIES",
+    "category": "Papelería",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22170",
+    "canonical_name": "PICTURE FRAME WOOD TRIPLE PORTRAIT",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22171",
+    "canonical_name": "3 HOOK PHOTO SHELF ANTIQUE WHITE",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22727",
+    "canonical_name": "ALARM CLOCK BAKELIKE RED",
+    "category": "Electrónica",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22726",
+    "canonical_name": "ALARM CLOCK BAKELIKE GREEN",
+    "category": "Electrónica",
+    "supplier_country": "China",
+    "is_active": true
+  },
+  {
+    "stock_code": "22728",
+    "canonical_name": "ALARM CLOCK BAKELIKE PINK",
+    "category": "Electrónica",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22729",
+    "canonical_name": "ALARM CLOCK BAKELIKE ORANGE",
+    "category": "Electrónica",
+    "supplier_country": "China",
+    "is_active": true
+  },
+  {
+    "stock_code": "22730",
+    "canonical_name": "ALARM CLOCK BAKELIKE IVORY",
+    "category": "Electrónica",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22749",
+    "canonical_name": "FELTCRAFT PRINCESS CHARLOTTE DOLL",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22748",
+    "canonical_name": "POPPY'S PLAYHOUSE KITCHEN",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22745",
+    "canonical_name": "POPPY'S PLAYHOUSE BEDROOM",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22746",
+    "canonical_name": "POPPY'S PLAYHOUSE LIVINGROOM",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22457",
+    "canonical_name": "NATURAL SLATE HEART CHALKBOARD",
+    "category": "Papelería",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22355",
+    "canonical_name": "CHARLOTTE BAG SUKI DESIGN",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22356",
+    "canonical_name": "CHARLOTTE BAG PINK POLKADOT",
+    "category": "Ropa",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "20719",
+    "canonical_name": "WOODLAND CHARLOTTE BAG",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22357",
+    "canonical_name": "KINGS CHOICE CHARLOTTE BAG",
+    "category": "Ropa",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "22358",
+    "canonical_name": "KINGS CHOICE LARGE SHOPPER",
+    "category": "Ropa",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "84991",
+    "canonical_name": "60 TEATIME BAKING CASES",
+    "category": "Papelería",
+    "supplier_country": "Perú",
+    "is_active": true
+  },
+  {
+    "stock_code": "84992",
+    "canonical_name": "72 SWEETHEART CAKE CASES",
+    "category": "Papelería",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22969",
+    "canonical_name": "HOMEMADE JAM SCENTED CANDLES",
+    "category": "Hogar",
+    "supplier_country": "México",
+    "is_active": true
+  },
+  {
+    "stock_code": "22970",
+    "canonical_name": "CAROUSEL DESIGN SCENTED CANDLES",
+    "category": "Hogar",
+    "supplier_country": "Colombia",
+    "is_active": true
+  },
+  {
+    "stock_code": "22971",
+    "canonical_name": "QUEENS GUARD SCENTED CANDLES",
+    "category": "Hogar",
+    "supplier_country": "Perú",
+    "is_active": true
+  }
+]
