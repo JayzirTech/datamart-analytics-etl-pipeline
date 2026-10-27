@@ -123,6 +123,7 @@ services:
       - ./dags:/opt/airflow/dags
       - ./src:/opt/airflow/src
       - ./scripts:/opt/airflow/scripts
+      - ./notebooks:/opt/airflow/notebooks
       - ./data:/opt/airflow/data
       - ./logs:/opt/airflow/logs
       - ./scripts/simple_auth_manager_passwords.json.generated:/opt/airflow/simple_auth_manager_passwords.json.generated
