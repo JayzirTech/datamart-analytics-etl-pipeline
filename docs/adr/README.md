@@ -18,4 +18,6 @@ Este repositorio mantiene los Registros de Decisiones de Arquitectura (Architect
 | **ADR-0011** | Aplicación de Arquitectura Limpia y Principios SOLID en el Pipeline | `Aceptado` | 2026-10-27 | [0011-arquitectura-limpia-y-principios-solid.md](0011-arquitectura-limpia-y-principios-solid.md) |
 | **ADR-0012** | Criterios para el Catálogo de Productos en la API FastAPI | `Aceptado` | 2026-10-27 | [0012-criterios-catalogo-productos-fastapi.md](0012-criterios-catalogo-productos-fastapi.md) |
 | **ADR-0013** | Configuración de Entorno Docker Airflow y Conexiones Automáticas | `Aceptado` | 2026-10-27 | [0013-configuracion-docker-airflow-conexiones-automaticas.md](0013-configuracion-docker-airflow-conexiones-automaticas.md) |
+| **ADR-0014** | Estandarización de Divisas a USD mediante API Pública con Fallback a Semilla | `Aceptado` | 2026-10-27 | [0014-conversion-divisas-usd-api-con-fallback-semilla.md](0014-conversion-divisas-usd-api-con-fallback-semilla.md) |
+
 
