@@ -10,38 +10,48 @@
 
 Solución de ingeniería de datos integral, modular y 100% contenerizada para **DataMart S.A.S.** que automatiza la ingesta masiva de transacciones de retail e-commerce (+1,000,000 de registros), enriquece los productos en tiempo real mediante un microservicio REST en **FastAPI**, estandariza las divisas a USD consumiendo **Frankfurter API**, valida la calidad de datos con políticas de rechazo estrictas y puebla un **Data Warehouse en PostgreSQL** mediante un modelo dimensional en estrella optimizado para consultas analíticas sub-segundo.
 
-```
-                  +----------------------------------------------+
-                  |               FUENTES DE DATOS               |
-                  |  - data.csv (Kaggle)                         |
-                  |  - online_retail_II.csv (Kaggle)             |
-                  +----------------------+-----------------------+
-                                         |
-                                         v
-+-----------------------+     +-------------------+     +-------------------------+
-|     Frankfurter       | --> |   APACHE AIRFLOW  | <-- |   FastAPI Microservice  |
-|   Currency API (USD)  |     |   (CeleryWorker + |     |   (Catálogo Productos)  |
-|  (Tasa cambio en vivo)|     |     RabbitMQ)     |     |   (http://localhost:8000)   |
-+-----------------------+     +---------+---------+     +-------------------------+
-                                        |
-                  +---------------------+---------------------+
-                  |           POSTGRESQL DATA WAREHOUSE       |
-                  |             (Puerto Host: 5433)           |
-                  |  - dim_customers (Soporta 'ANONYMOUS')    |
-                  |  - dim_products (Moda canónica + API)     |
-                  |  - dim_exchange_rates (Paridades USD)     |
-                  |  - fact_sales (Ventas > 0 en USD)         |
-                  |  - fact_returns (Devoluciones > 0 en USD) |
-                  |  - fact_daily_product_revenue (Neto diario|
-                  |  - rejected_records (Log de auditoría)    |
-                  |  - audit_product_descriptions             |
-                  +---------------------+---------------------+
-                                        |
-                  +---------------------+---------------------+
-                  |          CAPA DE CONSUMO ANALÍTICO        |
-                  |  - sql/queries_negocio.sql (7 Consultas)  |
-                  |  - notebooks/consultas_negocio.ipynb      |
-                  +-------------------------------------------+
+```mermaid
+graph TD
+    subgraph FUENTES["1. Fuentes de Datos Crudos"]
+        D1["data.csv (Kaggle)"]
+        D2["online_retail_II.csv (Kaggle)"]
+    end
+
+    subgraph SERVICIOS["2. Servicios Externos & Microservicios"]
+        API_CURR["Frankfurter API<br/><i>(Tasas de cambio a USD en vivo)</i>"]
+        FASTAPI["FastAPI Microservicio :8000<br/><i>(Catálogo taxonomía y proveedores)</i>"]
+    end
+
+    subgraph AIRFLOW["3. Orquestación Distribuida (Apache Airflow 3.3.2 en Docker)"]
+        SCHED["airflow-scheduler"]
+        WORKER["airflow-worker (Celery)"]
+        RABBIT["RabbitMQ Broker :5672 / :15672"]
+        WEB["airflow-api-server :8080 (UI)"]
+        PG_META[("PostgreSQL Metadata")]
+        
+        SCHED -->|Encola tareas| RABBIT
+        RABBIT -->|Ejecuta tareas| WORKER
+        SCHED --- PG_META
+        WEB --- PG_META
+    end
+
+    subgraph DWH["4. Almacenamiento Analítico (PostgreSQL DWH Puerto :5433)"]
+        DWH_DB[("datamart_dwh<br/>- dim_products<br/>- dim_customers<br/>- dim_exchange_rates<br/>- fact_sales (USD)<br/>- fact_returns (USD)<br/>- fact_daily_product_revenue<br/>- audit_product_descriptions<br/>- rejected_records")]
+    end
+
+    subgraph CONSUMO["5. Capa de Consumo & Auditoría Analítica"]
+        SQL["sql/queries_negocio.sql<br/>(7 Consultas de Negocio)"]
+        NOTEBOOK["notebooks/consultas_negocio.ipynb<br/>(Cuaderno Interactivo Dinámico)"]
+        DBDIAG["dbdiagram.io<br/>(Modelo Dimensional en la Nube)"]
+    end
+
+    D1 & D2 -->|Lectura idempotente| WORKER
+    API_CURR -->|Paridades vigentes| WORKER
+    FASTAPI -->|Enriquecimiento REST| WORKER
+    WORKER -->|Carga ACID con ON CONFLICT| DWH_DB
+    DWH_DB --> SQL
+    DWH_DB --> NOTEBOOK
+    DWH_DB --> DBDIAG
 ```
 
 ### 1.1 Diagrama Entidad-Relación del Data Warehouse (Modelo Dimensional en Estrella)
