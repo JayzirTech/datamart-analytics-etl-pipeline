@@ -37,3 +37,9 @@ Thumbs.db
 GUION_VIDEO_DEMO.txt
 GUION_VIDEO_DEMO.md
 *.txt
+
+# Recursos multimedia locales y miniaturas
+*.jpg
+*.jpeg
+*.png
+docs/assets/
