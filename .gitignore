@@ -1,0 +1,33 @@
+# Environment variables
+.env
+.env.local
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Data files (keep raw folder tracked with .gitkeep, ignore large datasets)
+data/raw/*.csv
+data/raw/*.zip
+data/processed/
+
+# Airflow logs and temporary files
+logs/
+*.log
+
+# Docker and OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDEs
+.idea/
+.vscode/
