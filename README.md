@@ -413,7 +413,7 @@ src/
 
 Como evidencia del funcionamiento integral del sistema y cumplimiento de la rúbrica de evaluación oficial (20/20 pts en documentación y decisiones), se incluye la demostración en video del pipeline ejecutándose de extremo a extremo:
 
-* 🎥 **Enlace al Video Demo:** [Ver Video Demostración en Loom / Drive / YouTube](URL_DEL_VIDEO_AQUI)
+* 🎥 **Enlace al Video Demo:** [Ver Video Demostración en YouTube (https://youtu.be/M46kV_vK2ys)](https://youtu.be/M46kV_vK2ys)
 
 ### Puntos clave cubiertos en la demostración:
 1. **Despliegue Automatizado:** Ejecución de `docker compose up -d` y comprobación de los 8 contenedores en estado `healthy`.

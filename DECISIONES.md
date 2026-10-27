@@ -225,5 +225,5 @@ El modelo relacional está formalizado y disponible tanto en archivo fuente en e
 
 La evidencia audiovisual del pipeline corriendo de extremo a extremo requerida por la rúbrica evaluadora se encuentra documentada en la [Sección 10 del README.md](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/README.md#10-video-demostración-del-pipeline-end-to-end):
 
-* 🎥 **Enlace al Video Demo:** [Ver Video Demostración](URL_DEL_VIDEO_AQUI)
+* 🎥 **Enlace al Video Demo:** [Ver Video Demostración en YouTube (https://youtu.be/M46kV_vK2ys)](https://youtu.be/M46kV_vK2ys)
 
