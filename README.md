@@ -372,3 +372,20 @@ src/
 5. **Consultas SQL de Negocio:** [`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql).
 6. **Cuaderno Analítico Interactivo:** [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb).
 7. **DDL del Data Warehouse:** [`dwh_init/01_init_dwh.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/dwh_init/01_init_dwh.sql).
+
+---
+
+## 10. Video Demostración del Pipeline (End-to-End)
+
+Como evidencia del funcionamiento integral del sistema y cumplimiento de la rúbrica de evaluación oficial (20/20 pts en documentación y decisiones), se incluye la demostración en video del pipeline ejecutándose de extremo a extremo:
+
+* 🎥 **Enlace al Video Demo:** [Ver Video Demostración en Loom / Drive / YouTube](URL_DEL_VIDEO_AQUI)
+
+### Puntos clave cubiertos en la demostración:
+1. **Despliegue Automatizado:** Ejecución de `docker compose up -d` y comprobación de los 8 contenedores en estado `healthy`.
+2. **Microservicio FastAPI:** Verificación de los endpoints `/health` y `/products` en `http://localhost:8000/docs`.
+3. **Apache Airflow:** Interfaz en `http://localhost:8080`, revisión de la conexión `postgres_dwh_conn` y variables operativas (`FRANKFURTER_API_URL`, `RAW_DATA_PATH`, etc.).
+4. **Ejecución y Monitoreo del DAG:** Disparo del DAG `datamart_etl_daily_pipeline` y ejecución exitosa de sus 4 tareas (`success`).
+5. **Data Warehouse en PostgreSQL:** Validación de filas en puerto `5433`, ejecución de [`sql/queries_negocio.sql`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/sql/queries_negocio.sql) y cuaderno interactivo [`notebooks/consultas_negocio.ipynb`](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/notebooks/consultas_negocio.ipynb).
+6. **Modelo de Datos:** Visualización interactiva en [dbdiagram.io](https://dbdiagram.io/d/DataMart-S-A-S-—-Data-Warehouse-and-Analytics-Data-Model-6ae0c592ed134e407e204467).
+

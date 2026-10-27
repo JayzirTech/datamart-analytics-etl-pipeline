@@ -211,3 +211,12 @@ El modelo relacional está formalizado y disponible tanto en archivo fuente en e
 | **ADR-0012** | Criterios del Catálogo FastAPI (Categorías, Proveedores y Estado Activo) | Aprobado | [Ver ADR-0012](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/adr/0012-criterios-catalogo-productos-fastapi.md) |
 | **ADR-0013** | Contenerización Total con Docker Compose y Autoconfiguración sin Intervención Manual | Aprobado | [Ver ADR-0013](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/adr/0013-docker-compose-autoconfiguracion-zero-click.md) |
 | **ADR-0014** | Conversión Dinámica a USD con Frankfurter API y Semilla de Respaldo | Aprobado | [Ver ADR-0014](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/docs/adr/0014-conversion-divisas-usd-api-con-fallback-semilla.md) |
+
+---
+
+## 7. Video Demostración del Pipeline (End-to-End)
+
+La evidencia audiovisual del pipeline corriendo de extremo a extremo requerida por la rúbrica evaluadora se encuentra documentada en la [Sección 10 del README.md](file:///c:/Users/Coder/Desktop/JayzirTech/data-analytics-performance-test/README.md#10-video-demostración-del-pipeline-end-to-end):
+
+* 🎥 **Enlace al Video Demo:** [Ver Video Demostración](URL_DEL_VIDEO_AQUI)
+
