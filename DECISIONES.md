@@ -36,6 +36,7 @@ erDiagram
     dim_customers ||--o{ fact_sales : "1:N (customer_key)"
     dim_customers ||--o{ fact_returns : "1:N (customer_key)"
     dim_exchange_rates ||--o{ fact_sales : "1:N (currency_code)"
+    dim_exchange_rates ||--o{ fact_returns : "1:N (currency_code)"
 
     dim_products {
         int product_key PK
@@ -231,7 +232,7 @@ Table fact_sales {
   customer_key integer [not null, ref: > dim_customers.customer_key]
   country varchar(100) [not null]
   quantity integer [not null, note: "Mayor a 0"]
-  currency_original varchar(10) [not null]
+  currency_original varchar(10) [not null, ref: > dim_exchange_rates.currency_code]
   unit_price_original numeric(12,4) [not null]
   exchange_rate_to_usd numeric(14,6) [not null]
   unit_price numeric(12,4) [not null, note: "En USD"]
@@ -250,7 +251,7 @@ Table fact_returns {
   customer_key integer [not null, ref: > dim_customers.customer_key]
   country varchar(100) [not null]
   quantity_returned integer [not null, note: "Valor positivo devuelto"]
-  currency_original varchar(10) [not null]
+  currency_original varchar(10) [not null, ref: > dim_exchange_rates.currency_code]
   unit_price_original numeric(12,4) [not null]
   exchange_rate_to_usd numeric(14,6) [not null]
   unit_price numeric(12,4) [not null, note: "En USD"]
@@ -272,7 +273,7 @@ Table fact_daily_product_revenue {
 }
 
 Table audit_product_descriptions {
-  stock_code varchar(50) [not null]
+  stock_code varchar(50) [not null, ref: > dim_products.stock_code]
   raw_description varchar(255) [not null]
   frequency integer [not null]
 }

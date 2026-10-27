@@ -55,6 +55,7 @@ erDiagram
     dim_customers ||--o{ fact_sales : "1:N (customer_key)"
     dim_customers ||--o{ fact_returns : "1:N (customer_key)"
     dim_exchange_rates ||--o{ fact_sales : "1:N (currency_code)"
+    dim_exchange_rates ||--o{ fact_returns : "1:N (currency_code)"
 
     dim_products {
         int product_key PK
